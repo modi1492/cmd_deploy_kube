@@ -1,0 +1,59 @@
+---
+# tasks file for shadowsocks
+- name: download epel.repo
+  get_url:
+    url: http://mirrors.aliyun.com/repo/epel-7.repo
+    dest: /etc/yum.repos.d/epel.repo
+
+- name: yum update
+  shell: yum update -y
+- name: install pip
+  yum: name=python-pip state=latest
+
+- name: install git
+  yum: name=git state=latest
+
+- name: update pip
+  shell: pip install --upgrade pip
+
+- name: install shadowsocks
+  yum: name=epel-release state=latest
+
+- name: install shadowsocks
+  shell: pip install shadowsocks
+
+- name: make shadowsocks directory
+  file:
+    path: /etc/shadowsocks
+    state: directory
+    mode: '0755'
+
+- name: copy shadowsocks file
+  copy: src=files/{{ item.src }} dest={{ item.dest }}
+  with_items:
+  - { src: 'shadowsocks.json', dest: '/etc/shadowsocks/shadowsocks.json'}
+  - { src: 'shadowsocks.service', dest: '/etc/systemd/system/shadowsocks.service'}
+
+
+
+- name: start and enable shadowsocks.service
+  shell: systemctl start shadowsocks.service && systemctl enable shadowsocks.service && systemctl status shadowsocks.service
+
+- name: install privoxy
+  yum: name=privoxy state=latest
+
+- name: copy privoxy config file
+  copy: src=files/{{ item.src }} dest={{ item.dest }}
+  with_items:
+    - { src: 'config', dest: '/etc/privoxy/config'}
+    - { src: 'gfwlist.action', dest: '/etc/privoxy/gfwlist.action'}
+    - { src: 'profile', dest: '/etc/profile'}
+
+- name: start & enable privoxy
+  shell: systemctl start privoxy && systemctl enable privoxy && systemctl status privoxy
+
+
+- name: souce profile
+  shell: source /etc/profile
+
+

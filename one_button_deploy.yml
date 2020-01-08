@@ -1,0 +1,5 @@
+---
+- hosts: 172.16.1.3
+  gather_facts: yes
+  roles:
+    - integration

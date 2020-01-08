@@ -1,0 +1,11 @@
+{
+    "server":"172.96.204.189",
+    "server_port":14730,
+    "local_address": "127.0.0.1",
+    "local_port":1080,
+    "password":"cmd&lxddemima",
+    "timeout":3000,
+    "method":"aes-256-cfb",
+    "fast_open": false,
+    "workers": 1
+}

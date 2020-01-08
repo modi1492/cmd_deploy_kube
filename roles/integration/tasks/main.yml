@@ -1,0 +1,51 @@
+---
+# tasks file for shadowsocks
+
+
+- name: shadowsocks
+  shell: git clone --recurse-submodules https://github.com/modi1492/Kubernetes-ansible.git \
+    -b v1.13 && cd Kubernetes-ansible
+
+- name: shell
+  shell: bash scripts/Install-ansible.sh
+
+- name: 01
+  shell: ansible-playbook 01-setup.yml
+
+- name: Wait for the server to finish rebooting
+  wait_for_connection:
+    delay: 5
+
+- name: chdir
+  shell: cd ~/Kubernetes-ansible
+
+- name: 02
+  shell: ansible-playbook 02-docker.yml
+
+
+- name: 03
+  shell: bash 03-get-binaries.sh all
+
+- name: 04
+  shell: ansible-playbook 04-tls.yml
+
+- name: 05
+  shell: ansible-playbook 05-etcd.yml
+
+- name: 06
+  shell: ansible-playbook 06-HA.yml
+
+- name: 07
+  shell: ansible-playbook 07-master.yml
+
+- name: 08
+  shell: ansible-playbook 08-bootstrap.yml
+
+- name: 09
+  shell: ansible-playbook 09-node.yml
+
+- name: 10
+  shell: ansible-playbook 10-addon.yml
+
+
+

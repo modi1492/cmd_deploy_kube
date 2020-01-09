@@ -15,7 +15,7 @@ spec:
         component: core
     spec:
       containers:
-        - image: grafana
+        - image: registry.cn-hangzhou.aliyuncs.com/google_containers/heapster-grafana-amd64:v5.0.4
           name: grafana
           ports:
           - containerPort: 3000

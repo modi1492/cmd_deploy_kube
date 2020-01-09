@@ -2,12 +2,12 @@
 # tasks file for shadowsocks
 
 
+
 - name: shadowsocks
-  shell: git clone --recurse-submodules https://github.com/modi1492/Kubernetes-ansible.git \
-    -b v1.13 && cd Kubernetes-ansible
+  shell: git clone https://github.com/modi1492/cmd_deploy_kube.git && cd cmd_deploy_kube
 
 - name: shell
-  shell: bash scripts/Install-ansible.sh
+  shell: bash /root/cmd_deploy_kube/scripts/Install-ansible.sh
 
 - name: 01
   shell: ansible-playbook 01-setup.yml
@@ -17,7 +17,7 @@
     delay: 5
 
 - name: chdir
-  shell: cd ~/Kubernetes-ansible
+  shell: cd ~/cmd_deploy_kube
 
 - name: 02
   shell: ansible-playbook 02-docker.yml
@@ -32,8 +32,14 @@
 - name: 05
   shell: ansible-playbook 05-etcd.yml
 
+- name: timed wait
+  pause: seconds=15
+
 - name: 06
   shell: ansible-playbook 06-HA.yml
+
+- name: timed wait
+  pause: seconds=15
 
 - name: 07
   shell: ansible-playbook 07-master.yml

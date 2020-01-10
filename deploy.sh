@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 ansible-playbook shadowsockets.yml
-git clone --recurse-submodules https://github.com/modi1492/Kubernetes-ansible.git \
-  -b v1.13 && cd Kubernetes-ansible
+git clone git@github.com:modi1492/cmd_deploy_kube.git && cd Kubernetes-ansible
 bash scripts/Install-ansible.sh
 ansible all -m ping
 ansible-playbook 01-setup.yml
